@@ -36,6 +36,11 @@ int main(void)
   //  CSCTL1 = DCOFSEL_5;                   // Set DCO to 7 MHz
   //  CSCTL1 = DCOFSEL_6;                   // Set DCO to 8MHz
 
+  // To operate beyond the 8MHz set the DCORSEL and 
+  // Configure one FRAM waitstate as required by the device datasheet for MCLK
+  // operation beyond 8MHz _before_ configuring the clock system.
+  // FRCTL0 = FRCTLPW | NWAITS_1;
+
   //********************* CSCTL2 Register ***********************
   // CSCTL2 is used to set the clocks sources
   // CSCTL2 : [ 15-11 Res.| 10-8 SELA | 7 Res. | 6-4 SELS | 3 Res.| 2-0 SELM ]
