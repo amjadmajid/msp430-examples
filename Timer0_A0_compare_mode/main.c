@@ -1,6 +1,10 @@
 /*
 This example sets Timer0_A0 in compare mode.
+Timer_A counter (TA0R) counts up to the value of TA0CCR0.
+Once TA0R = TA0CCR0 an interrupt generated and TA0R rolls back to zero
+Note:
 The TA0CCR0 CCIFG flag has the highest Timer_A interrupt priority and has a dedicated interrupt vector
+
  @ Authar: Amjad Yousef Majid
  @  26/March/2017
  Based on a TI example
@@ -46,7 +50,7 @@ int main(void)
   TA0CCR0 = 50000;
 
   // Timer0_A control register
-  TA0CTL = TASSEL__SMCLK | MC__CONTINOUS;   // SMCLK, continuous mode
+  TA0CTL = TASSEL__SMCLK | MC__UP;   // SMCLK, continuous mode
   	  	  	  	  	  	  	  	  	  	  	// Interrupts for the timer0_A (TA0R) is not enabled
 
   //  All CCIFG flags request an interrupt when their corresponding CCIE bit and the GIE bit are set.
@@ -58,5 +62,4 @@ int main(void)
 __interrupt void Timer0_A0_ISR (void)
 {
   P1OUT ^= BIT0;
-  TA0CCR0 += 50000;                         // Add Offset to TA0CCR0
 }
