@@ -1,3 +1,9 @@
+/*
+This example sets Timer0_A0 in compare mode.
+The TA0CCR0 CCIFG flag has the highest Timer_A interrupt priority and has a dedicated interrupt vector
+ */
+
+
 #include <msp430fr5969.h>
 
 int main(void)
