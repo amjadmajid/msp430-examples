@@ -44,7 +44,7 @@
 /* -heap   0x0100                                   HEAP AREA SIZE            */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-/* Version: 1.184                                                             */
+/* Version: 1.198                                                             */
 /*----------------------------------------------------------------------------*/
 
 /****************************************************************************/
@@ -167,8 +167,8 @@ SECTIONS
 #else
     .text             : {} >> FRAM2 | FRAM  /* Code                              */
 #endif
-#ifdef __TI_COMPILER_VERSION
-  #if __TI_COMPILER_VERSION >= 15009000
+#ifdef __TI_COMPILER_VERSION__
+  #if __TI_COMPILER_VERSION__ >= 15009000
     #ifndef __LARGE_DATA_MODEL__
     .TI.ramfunc : {} load=FRAM, run=RAM, table(BINIT)
     #else
