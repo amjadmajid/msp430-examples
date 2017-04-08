@@ -5,37 +5,32 @@ void ADC_init();
 
 void ADC_init()
 {
-	//**** Select the Sample and Hold value ****//
-	ADC12CTL0 = ADC12SHT0_2 | ADC12ON;
+	ADC12CTL0 = ADC12SHT0_2 | ADC12ON;		//  Sample and hold 16 ADC clock cycle and Turn on the ADC
 	/*
-	 * ADC12ON : Enable the ADC
+	 * ADC12CTL0 = [15-12 ADC12SHT1x | 11-8 ADC12SHT0x | 7 ADC12MSC | 6-5 Res. | 4 ADC12ON | 3-2 Res. | 1 ADCENC | 0 ADC12SC ]
 	 *
-	 * ADC12SH0_0 : sample and hold 4 ADC clock cycle
-	 * ADC12SH0_1 : sample and hold 8 ADC clock cycle
-	 * ADC12SH0_2 : sample and hold 16 ADC clock cycle
-	 * ADC12SH0_3 : sample and hold 32 ADC clock cycle
-	 * ....
-	 * ADC12SH0_15 : sample and hold 512 ADC clock cycle
+	 * ADC12SHT1x : These bits define the number of ADC12CLK cycles in the sampling period for registers ADC12MEM8 to ADC12MEM23.
+	 * ADC12SHT0x : These bits define the number of ADC12CLK cycles in the sampling period for registers ADC12MEM0 to ADC12MEM7.
+	 * ADC12MSC 	 : multiple sample and conversion.
+	 * ADC12ON   : Enable the ADC
+	 * ADCENC	 : Enable conversion
+	 * ADC12SC	 : Start conversion
 	 */
 
-	//**** Select the Source clock ****//
-	ADC12CTL1 = ADC12SHP;
+	ADC12CTL1 = ADC12SHP;			// Select the Source clock
 	/*
 	 * ADC12_B sample-and-hold pulse-mode select.
 	 * Source clock is sample timer
 	 */
 
-	//**** Select the resolution ****//
-	ADC12CTL2 |= ADC12RES_2;
+	ADC12CTL2 |= ADC12RES_2;			// Select the ADC resolution
 	/*
-	 * ADC12_B resolution of 12 bit conversion.
 	 * 00b = 8 bit (10 clock cycle conversion time)
 	 * 01b = 10 bit (12 clock cycle conversion time)
 	 * 10b = 12 bit (14 clock cycle conversion time)
 	 */
 
-	//**** Enable interrupts for specific channels ****//
-	ADC12IER0 |= ADC12IE0;
+	ADC12IER0 |= ADC12IE0;			// Enable interrupts for specific channels
 	/*
 	 * Enables or disables the interrupt request for ADC12IFG0 bit.
 	 * 0b = Interrupt disabled
@@ -47,8 +42,7 @@ void ADC_init()
 	 * ADC12IE15              (0x8000)     ADC12 Memory 15 Interrupt Enable
 	 */
 
-	//**** Select the references ****//
-	ADC12MCTL0 |= ADC12INCH_1 | ADC12VRSEL_1;
+	ADC12MCTL0 |= ADC12INCH_3 | ADC12VRSEL_2;		// Select the channel to sample from and the references
 	/*
 	 * Select        A1 (P1.1)      Vref = 1.2V
 	 *
@@ -70,8 +64,8 @@ int main(void) {
 
     // Configure P1.1 for the ADC
     // The Temp Sensor pin from the BoosterPack
-    P1SEL1 |= BIT1;
-    P1SEL0 |= BIT1;
+    P1SEL1 |= BIT3;
+    P1SEL0 |= BIT3;
 
     P1DIR |= 0x01;
 
