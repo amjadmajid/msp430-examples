@@ -13,12 +13,12 @@
  This solution is realized using the following Finite State Machine (FSM) abstraction
 
   ************ Odd number of 1's detector Finite State Machine (FSM) ******************
-				 --------                       --------
+                 --------                       --------
                  |      |                       |      |
                  |   0  v                       |   0  v
                 ------------        1         ------------
     init --->  |    Even    |  ----------->   |    Odd     |     <---- The name of the states
-			   |------------|      1          |------------|
+               |------------|      1          |------------|
                |     0      |  <----------    |     1      |     <--- This output of the states
                --------------                 --------------
 
