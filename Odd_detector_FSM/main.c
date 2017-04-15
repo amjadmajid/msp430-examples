@@ -17,9 +17,9 @@
 				 |      |							|      |
 				 |   0  v                            |   0  v
 				------------           1           ------------
-	init --->  |    Even    |  ---------------->   |    Odd     |                    <---- The name of the states
+	init --->  |    Even    |  ---------------->   |    Odd     |     <---- The name of the states
 			   |------------|          1           |------------|
-			   |     0      |  <---------------    |     1      |                     <--- This output of the states
+			   |     0      |  <---------------    |     1      |     <--- This output of the states
 			   --------------                      --------------
 
 */
