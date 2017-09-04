@@ -13,7 +13,7 @@ int main(void)
 
 
     res = RESLO;                   // result
-//    res2 = RESHI;                   // result
+//    res2 = RESHI;                   // second part of the result
 
     __no_operation();
 
