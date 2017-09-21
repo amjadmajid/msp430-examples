@@ -1,23 +1,27 @@
 //https://proprogramming.org/program-to-implement-rsa-algorithm-in-c/
 
-// #include<stdio.h>
+
+//#define DEBUG 1
+
 #include <msp430.h>
 #include <stdlib.h>
 #include <math.h>
-#include <uart-debugger.h>
 
-//#define DEBUG 1
+#ifdef DEBUG
+#include <uart-debugger.h>   // to get the UART library go to https://github.com/amjadmajid/uart-debugger-repo
+#endif
+
 
 #define MSG "hello"
 #define MSG_LEN 5
 
- int p,q,n,t,flag,e[20],d[20],temp[20],j,m[20],en[20],i;
+long int p,q,n,t,flag,e[50],d[50],temp[50],j,m[50],en[50],i;
 
 char * msg = MSG;
 
-int prime( int);
+int prime( long int);
 void ce();
- int cd( int);
+long int cd( long int);
 
 void encrypt();
 void decrypt();
@@ -31,30 +35,35 @@ int main()
 #endif
 
     // first prime number
-    p =  5;
+    p =  941;
     flag=prime(p);
     if(flag==0)
     {
-        exit(1);
+#ifdef DEBUG
+     uart_sendText("Error 1\n\r", 9);
+#endif
+        while(1);
     }
 
     // second prime number
-    q = 7;
+    q = 13;
     flag=prime(q);
     if(flag==0||p==q)
     {
-        exit(1);
+#ifdef DEBUG
+     uart_sendText("Error 2\n\r", 9);
+#endif
+        while(1);
     }
 
     // plain text message
     for(i=0; i < MSG_LEN  ;i++)
     {
         // hardware multiplier
-        m[i]= *msg;
+        m[i]= *(msg+i);
 #ifdef DEBUG
         uart_sendChar(*msg);
 #endif
-        msg++;
     }
 
 #ifdef DEBUG
@@ -68,13 +77,15 @@ int main()
     encrypt();
     decrypt();
 
+    __no_operation();
+
     while(1);
 
     return 0;
 }
 
-
-int prime( int pr)
+// check if the number is prime
+int prime(long int pr)
 {
     int i;
     j=sqrt(pr);
@@ -92,28 +103,27 @@ void ce()
     for(i=2;i<t;i++)
     {
         if(t%i==0)
-            {
-                continue;
-            }
+            continue;
 
         flag=prime(i);
+
         if(flag==1&&i!=p&&i!=q)
         {
-            e[k]=i;
-            flag=cd(e[k]);
+            e[k]=i; flag=cd(e[k]);
             if(flag>0)
             {
                 d[k]=flag;
                 k++;
             }
-            if(k==99)
+            if(k==49)
                 break;
         }
     }
 }
- int cd( int x)
+
+long int cd(long int x)
 {
-     int k=1;
+    long int k=1;
     while(1)
     {
         k=k+t;
@@ -123,10 +133,10 @@ void ce()
 }
 void encrypt()
 {
-     int pt,ct,key=e[0],k;
+    long int pt,ct,key=e[0],k,len;
     i=0;
-
-    while(i!=MSG_LEN)
+    len=strlen(msg);
+    while(i!=len)
     {
         pt=m[i];
         pt=pt-96;
@@ -154,21 +164,23 @@ void encrypt()
 }
 void decrypt()
 {
-     int pt,ct,key=d[0],k;
-    i=0;
-    while(en[i]!=-1)
-    {
-        ct=temp[i];
-        k=1;
-        for(j=0;j<key;j++)
-        {
-            k=k*ct;
-            k=k%n;
-        }
-        pt=k+96;
-        m[i]=pt;
-        i++;
-    }
+    long int pt,ct,key=d[0],k;
+      i=0;
+      while(en[i]!=-1)
+      {
+          ct=temp[i];
+          k=1;
+          for(j=0;j<key;j++)
+          {
+              k=k*ct;
+              k=k%n;
+          }
+          pt=k+96;
+          m[i]=pt;
+          i++;
+      }
+      m[i]=-1;
+
 #ifdef DEBUG
 
     uart_sendText("THE_DECRYPTED_MESSAGE_IS\n\r", 26);
