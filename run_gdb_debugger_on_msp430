@@ -1,7 +1,7 @@
 Debug msp430 with ti msp-elf-gdb
-1- Run the debugger
+1. Run the debugger
 `<path>/ti/gcc/bin/msp430-elf-gdb`
-2- Run the gdb_agent_console in a new terminal
+2. Run the gdb_agent_console in a new terminal
 `.<path>/ti/gcc/bin/gdb_agent_console     <path>/ti/gcc/msp430.dat`
 Back to the debug console (gdb)
 (gdb) `target remote :55000`
